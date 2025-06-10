@@ -164,6 +164,26 @@ def predict_depression_risk(model, student_data, feature_names):
         'confidence': 'Yüksek' if abs(probability - 0.5) > 0.3 else 'Orta'
     }
 
+def add_navigation_buttons(current_page_index, pages):
+    """Sayfalar arası navigasyon butonları ekler"""
+    st.markdown("---")
+    col1, col2, col3 = st.columns([1, 2, 1])
+    
+    with col1:
+        if current_page_index > 0:
+            if st.button("⬅️ Önceki Sayfa", key=f"prev_{current_page_index}"):
+                st.session_state.page_index = current_page_index - 1
+                st.rerun()
+    
+    with col2:
+        st.markdown(f"<div style='text-align: center; padding: 10px;'><strong>Sayfa {current_page_index + 1} / {len(pages)}</strong></div>", unsafe_allow_html=True)
+    
+    with col3:
+        if current_page_index < len(pages) - 1:
+            if st.button("Sonraki Sayfa ➡️", key=f"next_{current_page_index}"):
+                st.session_state.page_index = current_page_index + 1
+                st.rerun()
+
 def main():
     st.markdown('<h1 class="main-header">🧠 Öğrenci Depresyon Risk Tahmin Sistemi</h1>', unsafe_allow_html=True)
     
@@ -174,12 +194,26 @@ def main():
     if df is None or model is None:
         st.stop()
     
+    # Sayfa listesi
+    pages = ["🏠 Proje Hakkında", "🔬 Nasıl Yaptım?", "📊 Veri Analizi", "🤖 Model Performansı", "🔮 Risk Tahmini", "📈 Bulgular ve Öneriler"]
+    
+    # Session state ile sayfa index'ini takip et
+    if 'page_index' not in st.session_state:
+        st.session_state.page_index = 0
+    
     # Kenar çubuğu navigasyonu
     st.sidebar.title("Menü")
-    page = st.sidebar.selectbox(
+    selected_page = st.sidebar.selectbox(
         "Bir bölüm seçin:",
-        ["🏠 Proje Hakkında", "🔬 Nasıl Yaptım?", "📊 Veri Analizi", "🤖 Model Performansı", "🔮 Risk Tahmini", "📈 Bulgular ve Öneriler"]
+        pages,
+        index=st.session_state.page_index
     )
+    
+    # Seçilen sayfaya göre index'i güncelle
+    if selected_page in pages:
+        st.session_state.page_index = pages.index(selected_page)
+    
+    page = pages[st.session_state.page_index]
     
     if page == "🏠 Proje Hakkında":
         st.header("Proje Hakkında")
@@ -253,8 +287,7 @@ def main():
         with col3:
             st.markdown("""
             **💡 Yaşam Tarzı**
-            - Uyku süresi
-            - Beslenme alışkanlıkları
+            - Uyku süresi            - Beslenme alışkanlıkları
             - Finansal stres
             """)
         
@@ -269,6 +302,9 @@ def main():
         
         for goal in goals:
             st.write(f"✅ {goal}")
+        
+        # Navigasyon butonları
+        add_navigation_buttons(st.session_state.page_index, pages)
     
     elif page == "🔬 Nasıl Yaptım?":
         st.header("Projeyi Nasıl Geliştirdim?")
@@ -411,10 +447,12 @@ def main():
             st.markdown("""
             **Makine Öğrenmesi:**
             - 🤖 Scikit-learn (ML kütüphanesi)
-            - ⚡ XGBoost (Seçilen algoritma)
-            - 🌐 Streamlit (Web uygulaması)
+            - ⚡ XGBoost (Seçilen algoritma)            - 🌐 Streamlit (Web uygulaması)
             - 📋 Jupyter Notebook (Geliştirme ortamı)
             """)
+        
+        # Navigasyon butonları
+        add_navigation_buttons(st.session_state.page_index, pages)
     
     elif page == "📊 Veri Analizi":
         st.header("Veri Analizi ve Keşif")
@@ -494,14 +532,16 @@ def main():
         findings = [
             f"📊 Toplam {len(df):,} öğrencinin verisi analiz edildi",
             f"📈 Öğrencilerin %{df['Depression'].mean()*100:.1f}'inde depresyon belirtisi görüldü",
-            "🧑‍🎓 18-25 yaş aralığındaki öğrenciler en riskli grup",
-            "💰 Finansal stres, depresyon ile güçlü ilişki gösteriyor",
+            "🧑‍🎓 18-25 yaş aralığındaki öğrenciler en riskli grup",            "💰 Finansal stres, depresyon ile güçlü ilişki gösteriyor",
             "😴 Yetersiz uyku (5 saatten az) riski artırıyor",
             "📚 Akademik baskı ile ders memnuniyeti ters orantılı"
         ]
         
         for finding in findings:
             st.write(f"• {finding}")
+        
+        # Navigasyon butonları
+        add_navigation_buttons(st.session_state.page_index, pages)
     
     elif page == "🤖 Model Performansı":
         st.header("Yapay Zeka Modelinin Performansı")
@@ -578,8 +618,7 @@ def main():
         reliability_metrics = [
             ("📈 Yüksek Doğruluk", "%85.2 doğruluk oranı ile güvenilir tahminler"),
             ("🔄 Çapraz Doğrulama", "5 farklı test ile tutarlı sonuçlar"),
-            ("⚖️ Dengeli Performans", "Hem hassasiyet hem geri çağırma dengeli"),
-            ("📊 Büyük Veri Seti", "27000+ öğrenci verisi ile eğitildi"),
+            ("⚖️ Dengeli Performans", "Hem hassasiyet hem geri çağırma dengeli"),            ("📊 Büyük Veri Seti", "27000+ öğrenci verisi ile eğitildi"),
         ]
         
         for icon_title, description in reliability_metrics:
@@ -589,6 +628,9 @@ def main():
         **Sonuç:** Bu model, öğrenci depresyon riskini tahmin etmek için güvenilir bir şekilde kullanılabilir. 
         Ancak nihai karar her zaman uzman bir doktor tarafından verilmelidir.
         """)
+        
+        # Navigasyon butonları
+        add_navigation_buttons(st.session_state.page_index, pages)
     
     elif page == "🔮 Risk Tahmini":
         st.header("Depresyon Risk Tahmini")
@@ -710,12 +752,14 @@ def main():
             ))
             fig_gauge.update_layout(height=400)
             st.plotly_chart(fig_gauge, use_container_width=True)
-            
-            # Açıklama
+              # Açıklama
             st.info("""
             **Önemli Not:** Bu tahmin sadece bilgilendirme amaçlıdır. 
             Kesin tanı için mutlaka bir ruh sağlığı uzmanına başvurun.
             """)
+        
+        # Navigasyon butonları
+        add_navigation_buttons(st.session_state.page_index, pages)
     
     elif page == "📈 Bulgular ve Öneriler":
         st.header("Bulgular ve Öneriler")
@@ -812,14 +856,16 @@ def main():
         ✅ Erken müdahale için etkili bir araç geliştirilebilir
         
         ✅ Veri bilimi yöntemleri, ruh sağlığı alanında değerli çözümler üretebilir
-        
-        ✅ Teknoloji, insan sağlığına hizmet etmek için kullanılabilir
+          ✅ Teknoloji, insan sağlığına hizmet etmek için kullanılabilir
         """)
         
         st.info("""
         **Önemli Hatırlatma:** Bu sistem bir karar destek aracıdır. 
         Kesin tanı ve tedavi için mutlaka uzman bir doktora başvurun.
         """)
+        
+        # Navigasyon butonları
+        add_navigation_buttons(st.session_state.page_index, pages)
 
 if __name__ == "__main__":
     main()
