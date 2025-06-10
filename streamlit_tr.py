@@ -415,20 +415,6 @@ def main():
             - 🌐 Streamlit (Web uygulaması)
             - 📋 Jupyter Notebook (Geliştirme ortamı)
             """)
-        
-        st.subheader("⏱️ Zaman Çizelgesi")
-        
-        timeline = [
-            ("1. Hafta", "Problem araştırması ve veri seti bulma"),
-            ("2. Hafta", "Veri temizleme ve ön işleme"),
-            ("3. Hafta", "Özellik mühendisliği ve görselleştirme"),
-            ("4. Hafta", "Model eğitimi ve karşılaştırma"),
-            ("5. Hafta", "Model optimizasyonu"),
-            ("6. Hafta", "Web uygulaması geliştirme")
-        ]
-        
-        for week, task in timeline:
-            st.write(f"**{week}:** {task}")
     
     elif page == "📊 Veri Analizi":
         st.header("Veri Analizi ve Keşif")
@@ -445,17 +431,6 @@ def main():
         with col1:
             st.write("**Veri Boyutu:**")
             st.info(f"Satır: {df.shape[0]:,}, Sütun: {df.shape[1]}")
-            
-            st.write("**Eksik Veriler:**")
-            missing_data = df.isnull().sum()
-            if missing_data.sum() == 0:
-                st.success("Eksik veri bulunamadı!")
-            else:
-                st.write(missing_data[missing_data > 0])
-        
-        with col2:
-            st.write("**Veri Türleri:**")
-            st.write(df.dtypes.value_counts())
         
         # Örnek veriler
         st.subheader("📝 Örnek Veriler")
@@ -473,7 +448,7 @@ def main():
             with col1:
                 fig_pie = px.pie(
                     values=depression_counts.values,
-                    names=['Depresyon Yok', 'Depresyon Var'],
+                    names=['Depresyon Var', 'Depresyon Yok'],
                     title="Öğrencilerde Depresyon Dağılımı"
                 )
                 st.plotly_chart(fig_pie, use_container_width=True)
@@ -540,20 +515,20 @@ def main():
         
         st.write("""
         **Bu sayılar ne anlama geliyor?**
-        - **Doğruluk:** 100 tahminden kaçını doğru yapıyor
-        - **Hassasiyet:** "Depresyon var" dediğinde ne kadar güvenilir
-        - **Geri Çağırma:** Gerçek depresyon vakalarının kaçını yakalıyor
+        - **Accuracy:** 100 tahminden kaçını doğru yapıyor
+        - **Precision:** "Depresyon var" dediğinde ne kadar güvenilir
+        - **Recall:** Gerçek depresyon vakalarının kaçını yakalıyor
         - **F1 Skoru:** Genel performansın dengeli ölçüsü
         """)
         
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.metric("Doğruluk", "85.2%", "2.1%", help="100 tahminden 85'ini doğru yapıyor")
+            st.metric("Accuracy", "85.2%", "2.1%", help="100 tahminden 85'ini doğru yapıyor")
         with col2:
-            st.metric("Hassasiyet", "83.7%", "1.8%", help="Depresyon tahmini yaptığında %83.7 güvenilir")
+            st.metric("Precision", "83.7%", "1.8%", help="Depresyon tahmini yaptığında %83.7 güvenilir")
         with col3:
-            st.metric("Geri Çağırma", "86.4%", "2.3%", help="Gerçek depresyon vakalarının %86.4'ünü yakalıyor")
+            st.metric("Recall", "86.4%", "2.3%", help="Gerçek depresyon vakalarının %86.4'ünü yakalıyor")
         with col4:
             st.metric("F1 Skoru", "85.0%", "2.0%", help="Genel performans skoru")
         
@@ -564,7 +539,7 @@ def main():
         
         model_performance = {
             'Model': ['XGBoost ⭐', 'Random Forest', 'Gradient Boosting', 'Logistic Regression'],
-            'Doğruluk (%)': [85.2, 83.1, 84.1, 78.9],
+            'Accuracy (%)': [85.2, 83.1, 84.1, 78.9],
             'F1-Skoru (%)': [85.0, 82.8, 83.8, 77.5]
         }
         
@@ -577,7 +552,7 @@ def main():
         fig_comparison = px.bar(
             df_models, 
             x='Model', 
-            y=['Doğruluk (%)', 'F1-Skoru (%)'],
+            y=['Accuracy (%)', 'F1-Skoru (%)'],
             title="Model Performans Karşılaştırması",
             barmode='group'
         )
@@ -604,8 +579,7 @@ def main():
             ("📈 Yüksek Doğruluk", "%85.2 doğruluk oranı ile güvenilir tahminler"),
             ("🔄 Çapraz Doğrulama", "5 farklı test ile tutarlı sonuçlar"),
             ("⚖️ Dengeli Performans", "Hem hassasiyet hem geri çağırma dengeli"),
-            ("📊 Büyük Veri Seti", "1000+ öğrenci verisi ile eğitildi"),
-            ("🎯 Gerçek Hayat Testi", "Görülmemiş veriler üzerinde test edildi")
+            ("📊 Büyük Veri Seti", "27000+ öğrenci verisi ile eğitildi"),
         ]
         
         for icon_title, description in reliability_metrics:
