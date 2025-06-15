@@ -571,11 +571,47 @@ def main():
             st.metric("Recall", "86.4%", "2.3%", help="Gerçek depresyon vakalarının %86.4'ünü yakalıyor")
         with col4:
             st.metric("F1 Skoru", "85.0%", "2.0%", help="Genel performans skoru")
-        
         # Model karşılaştırması
         st.subheader("🏆 Model Karşılaştırması")
         
         st.write("Farklı yapay zeka algoritmalarının performans karşılaştırması:")
+        # Model açıklamaları
+        st.markdown("""
+        #### 🤖 Algoritma Açıklamaları:
+        """)
+        
+        with st.expander("📊 Model Detayları ve Çalışma Prensipleri"):
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("""
+                **🥇 XGBoost (Extreme Gradient Boosting)**
+                - **Çalışma prensibi:** Sıralı öğrenme - her ağaç bir önceki hatayı düzeltir
+                - **Özel yeteneği:** Gradyan optimizasyonu ile sürekli kendini geliştirir
+                - **Güçlü yanları:** Regularizasyon tekniği, paralel işleme, bellek optimizasyonu
+                - **Depresyon tespitindeki avantajı:** Karmaşık psikolojik kalıpları yakalayabilir
+                - **Performans:** %85.2 doğruluk - En yüksek!
+                
+                **🌲 Random Forest (Rastgele Orman)**
+                - **Çalışma prensibi:** Paralel öğrenme - bağımsız ağaçların demokratik oylaması
+                - **Özel yeteneği:** Bootstrap sampling ile veri çeşitliliği yaratır
+                - **Güçlü yanları:** Overfitting riski düşük, özellik önemini kolayca gösterir
+                - **Depresyon tespitindeki avantajı:** Güvenilir ve istikrarlı tahminler
+                - **Performans:** %83.1 doğruluk - Güvenilir seçenek
+                """)
+            
+            with col2:
+                st.markdown("""
+                **⚡ Gradient Boosting**
+                - **Nasıl çalışır:** Hatalardan öğrenerek sıralı ağaçlar oluşturan algoritma
+                - **Avantajları:** Güçlü tahmin gücü, karmaşık ilişkileri yakalayabilir
+                - **Performans:** XGBoost'a yakın (%84.1 doğruluk)
+                
+                **📈 Logistic Regression**
+                - **Nasıl çalışır:** İstatistiksel olasılık hesabı yapan basit algoritma
+                - **Avantajları:** Hızlı, yorumlanması kolay, az veri ile çalışabilir
+                - **Performans:** Temel seviyede (%78.9 doğruluk)
+                """)
         
         model_performance = {
             'Model': ['XGBoost ⭐', 'Random Forest', 'Gradient Boosting', 'Logistic Regression'],
@@ -594,9 +630,19 @@ def main():
             x='Model', 
             y=['Accuracy (%)', 'F1-Skoru (%)'],
             title="Model Performans Karşılaştırması",
-            barmode='group'
-        )
+            barmode='group'        )
         st.plotly_chart(fig_comparison, use_container_width=True)
+        
+        # XGBoost seçim gerekçesi
+        st.info("""
+        **🏆 Neden XGBoost Seçildi?**
+        
+        1. **En yüksek doğruluk:** %85.2 ile en iyi performans
+        2. **Dengeli sonuçlar:** Hem hassasiyet hem geri çağırma skorları dengeli
+        3. **Güvenilirlik:** Overfitting'e karşı dirençli, tutarlı sonuçlar
+        4. **Hız:** Tahmin yaparken hızlı ve verimli
+        5. **Sağlık alanına uygunluk:** Medikal verilerde kanıtlanmış başarı
+        """)
         
         # En önemli faktörler
         st.subheader("🎯 En Önemli Faktörler")
