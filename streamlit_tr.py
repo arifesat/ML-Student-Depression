@@ -495,11 +495,13 @@ def main():
                 st.metric("Depresyon Olmayan", f"{depression_counts[0]:,}")
                 st.metric("Depresyon Olan", f"{depression_counts[1]:,}")
                 st.metric("Depresyon Oranı", f"{(depression_counts[1]/len(df)*100):.1f}%")
-        
-        # Dağılım grafikleri
+          # Dağılım grafikleri
         st.subheader("📈 Değişken Dağılımları")
         
         numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+        # ID sütununu hariç tut
+        if 'id' in numeric_columns:
+            numeric_columns.remove('id')
         
         if len(numeric_columns) > 0:
             selected_column = st.selectbox("Görselleştirmek istediğiniz değişkeni seçin:", numeric_columns)
@@ -848,48 +850,6 @@ def main():
             labels={'Yaygınlık_%': 'Yaygınlık (%)', 'Etki_Skoru': 'Etki Skoru'}
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
-        
-        # Öneriler
-        st.subheader("💡 Öneriler")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("""
-            **🏫 Eğitim Kurumları İçin:**
-            - Erken tarama programları uygulayın
-            - Finansal danışmanlık hizmetleri sağlayın
-            - Sağlıklı uyku alışkanlıkları farkındalığı yaratın
-            - Stres yönetimi atölyeleri düzenleyin
-            - Akran destek ağları kurun
-            - Ruh sağlığı konusunda bilinçlendirme yapın
-            """)
-        
-        with col2:
-            st.markdown("""
-            **🧑‍🎓 Öğrenciler İçin:**
-            - İntihar düşüncesi yaşıyorsanız mutlaka yardım alın
-            - Düzenli uyku düzenini koruyun (7-8 saat)
-            - Stres yönetimi tekniklerini öğrenin
-            - Finansal okuryazarlık geliştirin
-            - Sosyal aktivitelere katılın
-            - Destek gruplarından faydalanın
-            """)
-        
-        # Gelecek geliştirmeler
-        st.subheader("🚀 Gelecekte Neler Yapılabilir?")
-        
-        future_improvements = [
-            "**Gerçek zamanlı izleme:** Giyilebilir cihazlarla uyku ve stres takibi",
-            "**Kişiselleştirilmiş müdahaleler:** Bireysel risk profiline göre özel öneriler",
-            "**Uzun vadeli takip:** Zaman içinde ruh sağlığı değişimlerini izleme",
-            "**Çok modlu veri:** Sosyal medya desenleri, akademik performans trendleri",
-            "**Müdahale etkinliği:** Önerilen eylemlerin sonuçlarını takip etme",
-            "**Mobil uygulama:** Kolay erişim için smartphone uygulaması"
-        ]
-        
-        for improvement in future_improvements:
-            st.write(f"• {improvement}")
         
         # Sonuç
         st.subheader("🎯 Sonuç")
