@@ -826,31 +826,7 @@ def main():
         
         for i, finding in enumerate(findings, 1):
             st.write(f"**{i}.** {finding}")
-        
-        # Risk faktörleri analizi
-        st.subheader("📊 Risk Faktörleri Analizi")
-        
-        # Sentetik veri (görselleştirme için)
-        risk_factors = {
-            'Faktör': ['İntihar Düşüncesi', 'Finansal Stres', 'Yetersiz Uyku', 'Akademik Baskı', 'Aile Geçmişi', 'Beslenme Alışkanlıkları'],
-            'Etki_Skoru': [0.85, 0.72, 0.60, 0.55, 0.45, 0.38],
-            'Yaygınlık_%': [15, 45, 30, 60, 25, 40]
-        }
-        
-        df_risk = pd.DataFrame(risk_factors)
-        
-        # Etki vs Yaygınlık dağılım grafiği
-        fig_scatter = px.scatter(
-            df_risk, 
-            x='Yaygınlık_%', 
-            y='Etki_Skoru',
-            size='Etki_Skoru',
-            color='Faktör',
-            title="Risk Faktörlerinin Etkisi ve Yaygınlığı",
-            labels={'Yaygınlık_%': 'Yaygınlık (%)', 'Etki_Skoru': 'Etki Skoru'}
-        )
-        st.plotly_chart(fig_scatter, use_container_width=True)
-        
+
         # Sonuç
         st.subheader("🎯 Sonuç")
         
