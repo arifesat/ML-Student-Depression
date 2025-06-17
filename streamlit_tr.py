@@ -365,6 +365,9 @@ def main():
                 <li><strong>Genel Memnuniyet:</strong> Ders memnuniyeti - akademik baskı</li>
                 <li><strong>Yaş Grubu:</strong> Risk yaş aralıkları (18-25 yüksek risk)</li>
                 <li><strong>Uyku Kalitesi:</strong> Uyku süresi kategorileri</li>
+                <li><strong>Okul Derecesi:</strong> Okul derecesş kategorileri</li>
+                <li><strong>Yeme Alışkanlıkları:</strong> Yeme alışkanlığı kategorileri</li>
+                <li><strong>Not Ortalaması:</strong> Not ortalaması kategorileri</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -572,7 +575,7 @@ def main():
         with col3:
             st.metric("Recall", "86.4%", "2.3%", help="Gerçek depresyon vakalarının %86.4'ünü yakalıyor")
         with col4:
-            st.metric("F1 Skoru", "85.0%", "2.0%", help="Genel performans skoru")
+            st.metric("F1 Skoru", "85.0%", "2.2%", help="Genel performans skoru")
         # Model karşılaştırması
         st.subheader("🏆 Model Karşılaştırması")
         
@@ -625,14 +628,15 @@ def main():
         
         # Tablo
         st.dataframe(df_models, use_container_width=True)
-        
-        # Grafik
+          # Grafik
         fig_comparison = px.bar(
             df_models, 
             x='Model', 
             y=['Accuracy (%)', 'F1-Skoru (%)'],
             title="Model Performans Karşılaştırması",
-            barmode='group'        )
+            barmode='group',
+            color_discrete_sequence=['#2E86AB', '#A23B72']  # Mavi ve Pembe - daha ayırt edilebilir renkler
+        )
         st.plotly_chart(fig_comparison, use_container_width=True)
         
         # XGBoost seçim gerekçesi
