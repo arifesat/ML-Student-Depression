@@ -195,7 +195,7 @@ def main():
         st.stop()
     
     # Sayfa listesi
-    pages = ["🏠 Proje Hakkında", "🔬 Nasıl Yaptım?", "📊 Veri Analizi", "🤖 Model Performansı", "🔮 Risk Tahmini", "📈 Bulgular ve Öneriler"]
+    pages = ["🏠 Proje Hakkında", "🔬 Nasıl Yaptım?", "📊 Veri Analizi", "🤖 Model Performansı", "📈 Bulgular ve Öneriler", "🔮 Risk Tahmini"]
     
     # Session state ile sayfa index'ini takip et
     if 'page_index' not in st.session_state:
@@ -246,7 +246,7 @@ def main():
         st.markdown("---")
         
         # Proje açıklaması
-        st.subheader("Bu Proje Ne?")
+        st.subheader("Bu Proje Ne Yapıyor?")
         st.write("""
         Bu proje, **yapay zeka kullanarak öğrencilerin depresyon riskini tahmin eden** bir sistem geliştirme çalışmasıdır. 
         Öğrencilerin yaşam tarzı, akademik durumu ve kişisel özelliklerini analiz ederek depresyon riski taşıyıp taşımadığını 
@@ -328,7 +328,7 @@ def main():
         st.markdown("""
         <div class="project-step">
             <h3><span class="step-number">2</span>Veri Toplama</h3>
-            <p><strong>Ne yaptım:</strong> 1000+ öğrencinin verilerini içeren bir veri seti buldum.</p>
+            <p><strong>Ne yaptım:</strong> 27000+ öğrencinin verilerini içeren bir veri seti buldum.</p>
             <p><strong>Veri seti içeriği:</strong></p>
             <ul>
                 <li>Demografik bilgiler (yaş, cinsiyet)</li>
@@ -569,13 +569,13 @@ def main():
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.metric("Accuracy", "85.2%", "2.1%", help="100 tahminden 85'ini doğru yapıyor")
+            st.metric("Accuracy", "85.2%", "2.1", help="100 tahminden 85'ini doğru yapıyor")
         with col2:
-            st.metric("Precision", "83.7%", "1.8%", help="Depresyon tahmini yaptığında %83.7 güvenilir")
+            st.metric("Precision", "83.7%", "1.8", help="Depresyon tahmini yaptığında %83.7 güvenilir")
         with col3:
-            st.metric("Recall", "86.4%", "2.3%", help="Gerçek depresyon vakalarının %86.4'ünü yakalıyor")
+            st.metric("Recall", "86.4%", "2.3", help="Gerçek depresyon vakalarının %86.4'ünü yakalıyor")
         with col4:
-            st.metric("F1 Skoru", "85.0%", "2.2%", help="Genel performans skoru")
+            st.metric("F1 Skoru", "85.0%", "2.2", help="Genel performans skoru")
         # Model karşılaştırması
         st.subheader("🏆 Model Karşılaştırması")
         
